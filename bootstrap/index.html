@@ -81,6 +81,28 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+
+    /* Estilo para los nuevos botones */
+    .btn-lg {
+      width: 250px;
+      height: 200px;
+      font-size: 30px;
+      border-radius: 50%;
+      margin: 30px;
+    }
+
+    /* Estilo para los botones de imágenes */
+    .img-btn {
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    /* Estilo para los enlaces de las imágenes */
+    .img-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
@@ -102,14 +124,30 @@
         <a href="portafolio.html" class="btn btn-square" id="btn-portafolio">
           <span>Portafolio</span>
         </a>
-        <a href="contacto.html" class="btn btn-square" id="btn-contacto">
-          <span>Contacto</span>
-        </a>
         <a href="acerca.html" class="btn btn-square" id="btn-acerca">
           <span>Acerca de mí</span>
         </a>
         <a href="sesion.html" class="btn btn-square" id="btn-sesiones">
           <span>Sesiones</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Botones de imágenes -->
+    <div class="text-right">
+      <div class="img-btn" style="position: relative; top: -340px; left: 400px;">
+        <a href="https://www.instagram.com/luciano.raw._/" target="_blank" class="img-link">
+          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/ig.png" alt="Instagram" width="80" height="80">
+        </a>
+      </div>
+      <div class="img-btn" style="position: relative; top: -340px; left: 420px;">
+        <a href="https://wa.me/56930531304/?text=Hola Lucianoraw, vengo desde tu pagina web :)" target="_blank" class="img-link">
+          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/wts.png" alt="WhatsApp" width="70" height="70">
+        </a>
+      </div>
+      <div class="img-btn" style="position: relative; top: -340px; left: 460px;">
+        <a href="mailto:tu_correo@example.com" target="_blank" class="img-link">
+          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/email.png" alt="Correo electrónico" width="80" height="80">
         </a>
       </div>
     </div>
