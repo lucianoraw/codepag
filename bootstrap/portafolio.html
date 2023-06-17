@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,8 @@
 
   <style>
     body {
-      background: linear-gradient(#000000, #303030); /* Fondo degradado oscuro */
-      color: #ffffff; /* Color de texto blanco (#ffffff) */
+      background: linear-gradient(#000000, #303030);
+      color: #ffffff;
       margin: 0;
       padding: 0;
     }
@@ -20,62 +21,40 @@
     }
 
     .portada {
-      background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portada2.jpg'); /* Enlace directo de la imagen en GitHub */
+      background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portada2.jpg');
       background-size: cover;
       background-position: center;
-      height: 596px;
+      height: 300px; /* Ajusta la altura de la portada para móvil */
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .portada h1 {
-      font-size: 40px;
+      font-size: 24px; /* Ajusta el tamaño del título para móvil */
       position: absolute;
-      top: 70px; /* Ajustar la posición vertical del título */
-      left: 50%; /* Centrar horizontalmente el título */
-      transform: translateX(-50%); /* Ajustar el centrado horizontal */
+      top: 50px; /* Ajusta la posición vertical del título para móvil */
+      left: 50%;
+      transform: translateX(-50%);
       text-transform: uppercase;
       background-color: rgba(0, 0, 0, 0.5);
-      padding: 20px;
+      padding: 10px;
     }
 
     .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 200px; /* Ajustar el espacio entre la foto de portada y las imágenes */
+      margin-top: 50px; /* Ajusta el espacio entre la foto de portada y las imágenes para móvil */
     }
 
     .gallery-item {
-      width: 250px; /* Ajustar el tamaño de las imágenes */
-      height: 250px; /* Ajustar el tamaño de las imágenes */
-      margin: 20px; /* Ajustar el espacio entre las imágenes */
+      width: 250px;
+      height: 250px;
+      margin: 10px; /* Ajusta el espacio entre las imágenes para móvil */
       background-position: center;
       background-size: cover;
       cursor: pointer;
-    }
-
-    /* Estilos para la visualización emergente */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .lightbox.active {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     .lightbox-content {
@@ -85,36 +64,49 @@
       padding: 20px;
     }
 
-    .lightbox-image {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #ffffff;
-      cursor: pointer;
-    }
-
     .lightbox-caption {
-      margin-top: 20px;
-      color: #ffffff;
-      font-size: 16px;
+      margin-top: 10px; /* Ajusta el espacio entre la imagen y la descripción para móvil */
+      font-size: 14px; /* Ajusta el tamaño de la descripción para móvil */
+    }
+
+    /* Estilos específicos para dispositivos móviles */
+    @media (max-width: 768px) {
+      .portada {
+        height: 200px; /* Ajusta la altura de la portada para dispositivos con un ancho máximo de 768px */
+      }
+
+      .portada h1 {
+        font-size: 20px; /* Ajusta el tamaño del título para dispositivos con un ancho máximo de 768px */
+        top: 30px; /* Ajusta la posición vertical del título para dispositivos con un ancho máximo de 768px */
+      }
+
+      .gallery {
+        margin-top: 30px; /* Ajusta el espacio entre la foto de portada y las imágenes para dispositivos con un ancho máximo de 768px */
+      }
+
+      .gallery-item {
+        width: 150px; /* Ajusta el tamaño de las imágenes para dispositivos con un ancho máximo de 768px */
+        height: 150px; /* Ajusta el tamaño de las imágenes para dispositivos con un ancho máximo de 768px */
+        margin: 5px; /* Ajusta el espacio entre las imágenes para dispositivos con un ancho máximo de 768px */
+      }
+
+      .lightbox-caption {
+        margin-top: 5px; /* Ajusta el espacio entre la imagen y la descripción para dispositivos con un ancho máximo de 768px */
+        font-size: 12px; /* Ajusta el tamaño de la descripción para dispositivos con un ancho máximo de 768px */
+      }
     }
   </style>
 </head>
-<body>
-  <!-- Imagen de portada -->
-  <div class="portada">
-    <h1>Portafolio</h1>
-  </div>
 
+<body>
+    <!-- Imagen de portada -->
+    <div class="portada">
+        <h1 style="transform: translate(-50%, 0); position: absolute; top: 110px; left: 50%; font-size: 36px;">Portafolio</h1>
+     </div>
+  
   <!-- Texto -->
   <div class="container">
-    <div class="text-container" style="font-family: 'Times New Roman', Times, serif, sans-serif; font-size: 60px; position: absolute; top: 76%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="text-container" style="font-family: 'Times New Roman', Times, serif, sans-serif; font-size: 30px; position: absolute; top: 330px; left: 50%; transform: translate(-50%, -50%);">
       <p>¿Qué deseas ver?</p>
     </div>
 
@@ -156,4 +148,5 @@
     }
   </script>
 </body>
+
 </html>
