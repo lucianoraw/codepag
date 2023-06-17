@@ -9,6 +9,14 @@
     body {
       background: linear-gradient(#000000, #303030); /* Fondo degradado oscuro */
       color: #ffffff; /* Color de texto blanco (#ffffff) */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
     .portada {
@@ -105,25 +113,27 @@
   </div>
 
   <!-- Texto -->
-  <div class="text-container" style="font-family: 'Times New Roman', Times, serif, sans-serif; font-size: 60px; position: absolute; top: 76%; left: 50%; transform: translate(-50%, -50%);">
-    <p>¿Qué deseas ver?</p>
-  </div>
+  <div class="container">
+    <div class="text-container" style="font-family: 'Times New Roman', Times, serif, sans-serif; font-size: 60px; position: absolute; top: 76%; left: 50%; transform: translate(-50%, -50%);">
+      <p>¿Qué deseas ver?</p>
+    </div>
 
-  <!-- Galería de imágenes -->
-  <div class="gallery">
-    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Descripción de la imagen 1', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
-    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Descripción de la imagen 2', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
-    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Descripción de la imagen 3', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
-    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Descripción de la imagen 4', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
-    <!-- Agrega aquí más imágenes según sea necesario -->
-  </div>
+    <!-- Galería de imágenes -->
+    <div class="gallery">
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Descripción de la imagen 1', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Descripción de la imagen 2', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Descripción de la imagen 3', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Descripción de la imagen 4', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
+      <!-- Agrega aquí más imágenes según sea necesario -->
+    </div>
 
-  <!-- Visualización emergente (lightbox) -->
-  <div id="lightbox" class="lightbox">
-    <div class="lightbox-content">
-      <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-      <img id="lightbox-image" class="lightbox-image" src="" alt="Imágen">
-      <div id="lightbox-caption" class="lightbox-caption"></div>
+    <!-- Visualización emergente (lightbox) -->
+    <div id="lightbox" class="lightbox">
+      <div class="lightbox-content">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-image" class="lightbox-image" src="" alt="Imágen">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+      </div>
     </div>
   </div>
 
