@@ -2,8 +2,7 @@
 <html lang="es">
 
 <head>
-  <!-- Resto del código omitido por simplicidad -->
-   <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio</title>
 
@@ -124,50 +123,10 @@
       background-color: #ff0000; /* Cambia el color de fondo al rojo (#ff0000) */
       margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
     }
-    
-    .edit-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      overflow: auto;
-    }
-
-    .edit-modal-content {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #000000; /* Cambia el color de fondo a negro (#000000) */
-    }
-
-    .edit-description {
-      width: 100%;
-      height: 100px;
-      margin-bottom: 10px;
-      color: #ffffff;
-      background-color: transparent;
-      border: none;
-      resize: none;
-    }
-
-    .edit-button {
-      background-color: #007bff; /* Cambia el color de fondo al azul (#007bff) */
-      color: #ffffff;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
   </style>
 </head>
 
+<body>
   <!-- Imagen de portada -->
   <div class="portada">
   </div>
@@ -192,65 +151,16 @@
         <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
         <button type="button" class="btn btn-primary btn-lg close-button" onclick="closeLightbox(event)">Cerrar</button>
-        <button type="button" class="btn btn-primary btn-lg edit-button" onclick="openEditModal(event)">Editar</button>
-      </div>
-    </div>
-
-    <!-- Modal de edición de descripción -->
-    <div id="edit-modal" class="edit-modal">
-      <div class="edit-modal-content">
-        <textarea id="edit-description" class="edit-description" placeholder="Editar descripción"></textarea>
-        <button type="button" class="btn btn-primary btn-lg edit-button" onclick="saveDescription(event)">Guardar</button>
       </div>
     </div>
   </div>
 
-  <!-- Agrega el enlace al archivo JS personalizado -->
+  <!-- Agrega el enlace al archivo JS de Bootstrap y al archivo JS personalizado -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <script>
-    // Obtener las descripciones del archivo descripciones.txt
-    function getDescriptions() {
-      fetch('descripciones.txt')
-        .then(response => response.text())
-        .then(data => {
-          const descriptions = data.split('\n');
-          const galleryItems = document.getElementsByClassName('gallery-item');
-          Array.from(galleryItems).forEach((item, index) => {
-            item.setAttribute('data-description', descriptions[index]);
-          });
-        })
-        .catch(error => {
-          console.log('Error al obtener las descripciones:', error);
-        });
-    }
-
-    // Guardar las descripciones en el archivo descripciones.txt
-    function saveDescriptions() {
-      const galleryItems = document.getElementsByClassName('gallery-item');
-      const descriptions = Array.from(galleryItems).map(item => item.getAttribute('data-description') || '');
-      const descriptionsText = descriptions.join('\n');
-
-      const formData = new FormData();
-      formData.append('description', descriptionsText);
-
-      fetch('guardar_descripciones.php', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log('Las descripciones se guardaron correctamente.');
-          } else {
-            console.log('Error al guardar las descripciones.');
-          }
-        })
-        .catch(error => {
-          console.log('Error al guardar las descripciones:', error);
-        });
-    }
-
     fetch("https://api.github.com/repos/lucianoraw/pagina/contents/portafolio", {
       headers: {
         'Authorization': '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'
@@ -273,24 +183,17 @@
             gallery.appendChild(galleryItem);
           }
         });
-
-        // Obtener las descripciones una vez que se hayan cargado las imágenes
-        getDescriptions();
       });
 
     function openLightbox(caption, imageUrl) {
       var lightbox = document.getElementById('lightbox');
       var lightboxImage = document.getElementById('lightbox-image');
       var lightboxCaption = document.getElementById('lightbox-caption');
-      var editModal = document.getElementById('edit-modal');
-      var editDescription = document.getElementById('edit-description');
 
       lightboxImage.src = imageUrl;
       lightboxCaption.innerHTML = caption;
 
       lightbox.style.display = 'block';
-      editModal.style.display = 'none'; // Asegurarse de que el modal de edición esté oculto al abrir la visualización emergente
-      editDescription.value = ''; // Limpiar el campo de edición de descripción
     }
 
     function closeLightbox(event) {
@@ -299,42 +202,11 @@
       var lightboxCaption = document.getElementById('lightbox-caption');
 
       if (event.target === lightbox || event.target === lightboxImage || event.target === lightboxCaption) {
-        return; // Evitar el cierre si se hace clic dentro del contenido de la visualización emergente
+        return; // Ignorar el evento si se hizo clic en la imagen o en la descripción
       }
 
       lightbox.style.display = 'none';
     }
-
-    function openEditModal(event) {
-      var editModal = document.getElementById('edit-modal');
-      var lightboxCaption = document.getElementById('lightbox-caption');
-      var editDescription = document.getElementById('edit-description');
-
-      editDescription.value = lightboxCaption.innerHTML; // Mostrar la descripción actual en el campo de edición
-
-      editModal.style.display = 'block';
-    }
-
-    function saveDescription(event) {
-      var editModal = document.getElementById('edit-modal');
-      var editDescription = document.getElementById('edit-description');
-      var lightboxCaption = document.getElementById('lightbox-caption');
-
-      lightboxCaption.innerHTML = editDescription.value; // Actualizar la descripción en la visualización emergente
-
-      editModal.style.display = 'none';
-      saveDescriptions();
-    }
-
-    // Cargar las descripciones una vez que se haya cargado el DOM
-    document.addEventListener('DOMContentLoaded', () => {
-      getDescriptions();
-    });
-  </script>
-</body>
-
-</html>
-
   </script>
 </body>
 
