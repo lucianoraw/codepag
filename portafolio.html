@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio</title>
+
+  <!-- Agrega el enlace al archivo CSS de Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <style>
@@ -133,10 +135,10 @@
 
     <!-- Galería de imágenes -->
     <div class="gallery">
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Descripción de la imagen 1', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Descripción de la imagen 2', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Descripción de la imagen 3', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Descripción de la imagen 4', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Fabricante: Mitsubishi Motors<br>Modelo: Mitsubishi Eclipse<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Fabricante: Nissan<br>Modelo: Silvia S14 Zenki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Fabricante: Nissan<br>Modelo: Silvia S14 Kouki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Fabricante: Honda<br>Modelo: S2000 Convertible<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
       <!-- Agrega aquí más imágenes según sea necesario -->
     </div>
 
@@ -145,13 +147,16 @@
       <div class="lightbox-content">
         <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
-        <button class="btn btn-danger" onclick="closeLightbox(event)">Cerrar</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="closeLightbox(event)">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Agrega el enlace al archivo JS de Bootstrap y al archivo JS personalizado -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <script>
     function openLightbox(caption, imageUrl) {
       var lightbox = document.getElementById('lightbox');
@@ -159,7 +164,7 @@
       var lightboxCaption = document.getElementById('lightbox-caption');
 
       lightboxImage.src = imageUrl;
-      lightboxCaption.textContent = caption;
+      lightboxCaption.innerHTML = caption;
 
       lightbox.style.display = 'block';
     }
