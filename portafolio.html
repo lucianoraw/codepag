@@ -142,7 +142,7 @@
     </div>
 
     <!-- Galería de imágenes -->
-    <div class="gallery" id="image-container">
+    <div class="gallery" id="image-gallery">
     </div>
 
     <!-- Visualización emergente (lightbox) -->
@@ -161,19 +161,29 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <script>
-    var imageContainer = document.getElementById('image-container');
-    var repoBaseUrl = 'https://github.com/lucianoraw/pagina/tree/main/portafolio'; // Reemplaza con la URL base de tu repositorio
-    var imageCount = 4; // Número total de imágenes
+    fetch("https://api.github.com/repos/lucianoraw/pagina/contents/portafolio", {
+      headers: {
+        'Authorization': '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'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('image-gallery');
+        data.forEach(item => {
+          if (item.type === 'file' && item.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            const imageUrl = item.download_url;
+            const imageAlt = item.name.replace(/\.(jpg|jpeg|png|gif)$/i, '');
+            const imageCaption = ''; // Puedes agregar una leyenda o descripción aquí si lo deseas
 
-    for (var i = 1; i <= imageCount; i++) {
-      var imageUrl = repoBaseUrl + i + '.jpg'; // Construye la URL de la imagen
-      var imageElement = document.createElement('div');
-      imageElement.classList.add('gallery-item');
-      imageElement.style.backgroundImage = 'url(' + imageUrl + ')';
-      imageElement.setAttribute('onclick', "openLightbox('Descripción de la imagen', '" + imageUrl + "')");
+            const galleryItem = document.createElement('div');
+            galleryItem.classList.add('gallery-item');
+            galleryItem.style.backgroundImage = `url('${imageUrl}')`;
+            galleryItem.setAttribute('onclick', `openLightbox('${imageCaption}', '${imageUrl}')`);
 
-      imageContainer.appendChild(imageElement); // Agrega la imagen al contenedor
-    }
+            gallery.appendChild(galleryItem);
+          }
+        });
+      });
 
     function openLightbox(caption, imageUrl) {
       var lightbox = document.getElementById('lightbox');
@@ -201,3 +211,4 @@
 </body>
 
 </html>
+
