@@ -1,293 +1,179 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio</title>
-
-  <!-- Agrega el enlace al archivo CSS de Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
   <style>
-    body {
-      background: linear-gradient(#000000, #303030);
-      color: #ffffff;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .portada {
-      background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portada2.jpg');
-      background-size: cover;
-      background-position: center;
-      height: 300px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .portada h1 {
-      font-size: 24px;
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-transform: uppercase;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-    }
-
     .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 50px;
+      margin-top: 20px;
     }
-
+    
     .gallery-item {
-      width: 250px;
-      height: 250px;
-      margin: 10px;
-      background-position: center;
+      width: 200px;
+      height: 200px;
       background-size: cover;
-      cursor: pointer;
+      background-position: center;
+      margin: 10px;
       position: relative;
+      cursor: pointer;
     }
-
-    .gallery-item .edit-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .gallery-item .edit-overlay:hover {
-      opacity: 1;
-    }
-
-    .gallery-item .edit-overlay i {
-      color: #fff;
-      font-size: 24px;
-      margin-right: 5px;
-    }
-
-    .gallery-item .edit-overlay span {
-      color: #fff;
-      font-size: 14px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
+    
     .lightbox {
-      display: none;
+      background-color: rgba(0, 0, 0, 0.8);
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      overflow: auto;
-    }
-
-    .lightbox-content {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .lightbox-image {
-      max-width: 100%;
-      max-height: 80vh;
-      margin-bottom: 10px;
-    }
-
-    .lightbox-caption {
-      font-size: 14px;
-    }
-
-    /* Estilos para dispositivos móviles */
-    @media (max-width: 768px) {
-      .portada {
-        height: 200px;
-      }
-
-      .portada h1 {
-        font-size: 20px;
-        top: 30px;
-      }
-
-      .gallery {
-        margin-top: 30px;
-      }
-
-      .gallery-item {
-        width: 150px;
-        height: 150px;
-        margin: 5px;
-      }
-
-      .lightbox-caption {
-        margin-top: 5px;
-        font-size: 12px;
-      }
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
     
-    .close-button {
-      background-color: #ff0000; /* Cambia el color de fondo al rojo (#ff0000) */
-      margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
+    .lightbox-image {
+      max-width: 80%;
+      max-height: 80%;
+    }
+    
+    .lightbox-caption {
+      color: #fff;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+    .edit-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
     }
     
     .edit-modal {
+      background-color: rgba(0, 0, 0, 0.8);
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
+      width: 100%;
+      height: 100%;
+      display: none;
       align-items: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
-    }
-    
-    .edit-modal.open {
-      visibility: visible;
-      opacity: 1;
+      justify-content: center;
     }
     
     .edit-modal-content {
       background-color: #fff;
       padding: 20px;
-      max-width: 600px;
+      border-radius: 5px;
+      max-width: 400px;
       text-align: center;
     }
     
-    .edit-modal-content h2 {
-      margin-bottom: 20px;
-    }
-    
-    .edit-modal-content input[type="text"] {
+    .edit-description-input {
       width: 100%;
+      padding: 10px;
       margin-bottom: 10px;
-      padding: 5px;
     }
     
-    .edit-modal-content textarea {
+    .edit-details-textarea {
       width: 100%;
       height: 100px;
+      padding: 10px;
       margin-bottom: 10px;
-      padding: 5px;
     }
     
-    .edit-modal-content button {
-      margin-top: 10px;
+    .edit-buttons {
+      text-align: center;
+    }
+    
+    .edit-save-button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .edit-cancel-button {
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
-  <!-- Imagen de portada -->
-  <div class="portada">
-  </div>
-
-  <!-- Texto -->
-  <div class="container">
-    <div class="text-container">
-      <p style="text-align: center; margin-top: 40px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif; font-size: 30px;">
-        ¿Qué deseas ver?
-        <br>
-        <span style="font-size: 18px; color: #999;">Haz clic en una imagen para ampliarla</span>
-      </p>
+  <div class="gallery">
+    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mgolfgti.JPG');" data-description="Fabricante: Volkswagen<br>Modelo: Golf GTI<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022">
+      <button class="edit-button">Editar</button>
     </div>
-
-    <!-- Galería de imágenes -->
-    <div class="gallery">
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" data-description="Fabricante: Mitsubishi Motors<br>Modelo: Mitsubishi Eclipse<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mgolfgti.JPG');" data-description="Fabricante: Volkswagen<br>Modelo: Golf GTI<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mgolfR.JPG');" data-description="Fabricante: Volkswagen<br>Modelo: Golf R<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mleoncupra.JPG');" data-description="Fabricante: SEAT<br>Modelo: León CUPRA<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mmustanggt.JPG');" data-description="Fabricante: Ford<br>Modelo: Mustang GT<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
+    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/mfocusst.JPG');" data-description="Fabricante: Ford<br>Modelo: Focus ST<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022">
+      <button class="edit-button">Editar</button>
+    </div>
+    <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/megolfr20.JPG');" data-description="Fabricante: Volkswagen<br>Modelo: Golf R20<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022">
+      <button class="edit-button">Editar</button>
     </div>
   </div>
 
-  <!-- Lightbox -->
   <div class="lightbox">
-    <div class="lightbox-content">
-      <img class="lightbox-image" src="" alt="">
-      <p class="lightbox-caption"></p>
-    </div>
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-image" src="" alt="">
+    <div class="lightbox-caption"></div>
+    <button class="edit-button lightbox-edit-button">Editar</button>
   </div>
-  
-  <!-- Modal de edición -->
+
   <div class="edit-modal">
     <div class="edit-modal-content">
-      <h2>Editar descripción</h2>
-      <input type="text" id="edit-description" placeholder="Descripción">
-      <textarea id="edit-details" placeholder="Detalles"></textarea>
-      <button id="save-button">Guardar</button>
-      <button id="cancel-button">Cancelar</button>
+      <h3>Editar descripción</h3>
+      <input class="edit-description-input" type="text" placeholder="Descripción">
+      <textarea class="edit-details-textarea" placeholder="Detalles"></textarea>
+      <div class="edit-buttons">
+        <button class="edit-save-button">Guardar</button>
+        <button class="edit-cancel-button">Cancelar</button>
+      </div>
     </div>
   </div>
 
-  <!-- Agrega el enlace al archivo JavaScript de Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    // Obtener las imágenes de la galería
     const galleryItems = document.querySelectorAll('.gallery-item');
-
-    // Obtener los elementos del lightbox
     const lightbox = document.querySelector('.lightbox');
     const lightboxImage = document.querySelector('.lightbox-image');
     const lightboxCaption = document.querySelector('.lightbox-caption');
-
-    // Obtener el modal de edición
+    const lightboxClose = document.querySelector('.lightbox-close');
     const editModal = document.querySelector('.edit-modal');
-    const editDescriptionInput = document.getElementById('edit-description');
-    const editDetailsTextarea = document.getElementById('edit-details');
-    const saveButton = document.getElementById('save-button');
-    const cancelButton = document.getElementById('cancel-button');
+    const editDescriptionInput = document.querySelector('.edit-description-input');
+    const editDetailsTextarea = document.querySelector('.edit-details-textarea');
+    const editButtons = document.querySelector('.edit-buttons');
+    const editSaveButton = document.querySelector('.edit-save-button');
+    const editCancelButton = document.querySelector('.edit-cancel-button');
+    let currentItem;
 
-    // Mostrar el lightbox
-    function showLightbox(imageSrc, caption) {
+    // Mostrar el lightbox con la imagen y la descripción
+    function showLightbox(imageSrc, description) {
       lightboxImage.src = imageSrc;
-      lightboxCaption.innerHTML = caption;
-      lightbox.style.display = 'flex';
+      lightboxCaption.innerHTML = description;
+      lightbox.classList.add('open');
     }
 
     // Cerrar el lightbox
     function closeLightbox() {
-      lightbox.style.display = 'none';
+      lightbox.classList.remove('open');
     }
 
-    // Mostrar el modal de edición
-    function showEditModal(description, details) {
+    // Mostrar el modal de edición con la descripción actual
+    function showEditModal(description) {
       editDescriptionInput.value = description;
-      editDetailsTextarea.value = details;
       editModal.classList.add('open');
     }
 
@@ -298,43 +184,53 @@
 
     // Agregar eventos de clic a las imágenes de la galería
     galleryItems.forEach((item) => {
+      const editButton = item.querySelector('.edit-button');
+      const editButtonLightbox = item.querySelector('.lightbox-edit-button');
+
       item.addEventListener('click', () => {
         const imageSrc = item.style.backgroundImage.slice(5, -2);
         const description = item.dataset.description;
         showLightbox(imageSrc, description);
       });
-      
-      // Agregar evento de clic al ícono de edición
-      const editOverlay = document.createElement('div');
-      editOverlay.classList.add('edit-overlay');
-      editOverlay.innerHTML = '<i class="fas fa-edit"></i><span>Editar</span>';
-      item.appendChild(editOverlay);
-      editOverlay.addEventListener('click', (event) => {
+
+      editButton.addEventListener('click', (event) => {
         event.stopPropagation();
+        currentItem = item;
         const description = item.dataset.description;
-        showEditModal(description, '');
+        showEditModal(description);
+      });
+
+      editButtonLightbox.addEventListener('click', (event) => {
+        event.stopPropagation();
+        currentItem = item;
+        const description = item.dataset.description;
+        showEditModal(description);
       });
     });
 
-    // Agregar evento de clic para cerrar el lightbox
-    lightbox.addEventListener('click', closeLightbox);
+    // Evento de clic en el botón de cerrar del lightbox
+    lightboxClose.addEventListener('click', closeLightbox);
 
-    // Agregar evento de clic para cerrar el modal de edición
-    cancelButton.addEventListener('click', closeEditModal);
+    // Evento de clic fuera del lightbox para cerrarlo
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
 
-    // Guardar los cambios en el modal de edición
-    saveButton.addEventListener('click', () => {
+    // Evento de clic en el botón de editar del modal
+    editSaveButton.addEventListener('click', () => {
       const newDescription = editDescriptionInput.value;
       const newDetails = editDetailsTextarea.value;
-      // Aquí puedes guardar los cambios en la base de datos o en algún otro lugar
-      // Por ahora, simplemente actualizaremos los datos en el elemento de la galería
-      const currentItem = document.querySelector('.gallery-item .edit-overlay.open');
-      if (currentItem) {
-        currentItem.dataset.description = newDescription;
-      }
+
+      currentItem.dataset.description = newDescription;
+      currentItem.querySelector('.lightbox-caption').innerHTML = newDescription;
+
       closeEditModal();
     });
+
+    // Evento de clic en el botón de cancelar del modal
+    editCancelButton.addEventListener('click', closeEditModal);
   </script>
 </body>
-
 </html>
