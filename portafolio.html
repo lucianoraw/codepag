@@ -118,14 +118,13 @@
         font-size: 12px;
       }
     }
-
+    
     .close-button {
       background-color: #ff0000; /* Cambia el color de fondo al rojo (#ff0000) */
       margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
     }
-
-    /* Estilos para el cuadro de diálogo de edición de descripción */
-    .edit-dialog {
+    
+    .edit-modal {
       display: none;
       position: fixed;
       top: 0;
@@ -134,44 +133,36 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.8);
       z-index: 9999;
-      justify-content: center;
-      align-items: center;
+      overflow: auto;
     }
 
-    .edit-dialog-content {
-      background-color: #000;
-      padding: 20px;
-      border-radius: 5px;
-      max-width: 400px;
+    .edit-modal-content {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
       text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #000000; /* Cambia el color de fondo a negro (#000000) */
     }
 
-    .edit-dialog-input {
+    .edit-description {
       width: 100%;
+      height: 100px;
       margin-bottom: 10px;
-      padding: 5px;
-      background-color: #fff;
-      color: #000;
+      color: #ffffff;
+      background-color: transparent;
       border: none;
-      border-radius: 3px;
+      resize: none;
     }
 
-    .edit-dialog-buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .edit-dialog-button {
-      padding: 5px 10px;
-      background-color: #fff;
-      color: #000;
+    .edit-button {
+      background-color: #007bff; /* Cambia el color de fondo al azul (#007bff) */
+      color: #ffffff;
       border: none;
-      border-radius: 3px;
+      padding: 10px 20px;
       cursor: pointer;
-    }
-
-    .edit-dialog-button:hover {
-      background-color: #ddd;
     }
   </style>
 </head>
@@ -201,18 +192,15 @@
         <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
         <button type="button" class="btn btn-primary btn-lg close-button" onclick="closeLightbox(event)">Cerrar</button>
-        <button type="button" class="btn btn-primary btn-lg edit-button" onclick="openEditDialog()">Editar</button>
+        <button type="button" class="btn btn-primary btn-lg edit-button" onclick="openEditModal(event)">Editar</button>
       </div>
     </div>
 
-    <!-- Cuadro de diálogo de edición de descripción -->
-    <div id="edit-dialog" class="edit-dialog">
-      <div class="edit-dialog-content">
-        <input id="edit-dialog-input" class="edit-dialog-input" type="text" placeholder="Editar descripción">
-        <div class="edit-dialog-buttons">
-          <button class="edit-dialog-button" onclick="saveDescription()">Guardar</button>
-          <button class="edit-dialog-button" onclick="closeEditDialog()">Cancelar</button>
-        </div>
+    <!-- Modal de edición de descripción -->
+    <div id="edit-modal" class="edit-modal">
+      <div class="edit-modal-content">
+        <textarea id="edit-description" class="edit-description" placeholder="Editar descripción"></textarea>
+        <button type="button" class="btn btn-primary btn-lg edit-button" onclick="saveDescription(event)">Guardar</button>
       </div>
     </div>
   </div>
@@ -222,133 +210,127 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
-    // Datos de las imágenes
-    const images = [
-      {
-        src: 'https://raw.githubusercontent.com/lucianoraw/pagina/main/img1.jpg',
-        alt: 'Imagen 1',
-        description: ''
-      },
-      {
-        src: 'https://raw.githubusercontent.com/lucianoraw/pagina/main/img2.jpg',
-        alt: 'Imagen 2',
-        description: ''
-      },
-      {
-        src: 'https://raw.githubusercontent.com/lucianoraw/pagina/main/img3.jpg',
-        alt: 'Imagen 3',
-        description: ''
-      }
-    ];
-
-    // Ruta del archivo de descripciones
-    const descriptionFile = 'https://raw.githubusercontent.com/lucianoraw/pagina/main/descripciones.txt';
-
-    // Función para cargar las imágenes y las descripciones
-    function loadImages() {
-      const gallery = document.getElementById('image-gallery');
-
-      images.forEach((image, index) => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.style.backgroundImage = `url(${image.src})`;
-        galleryItem.setAttribute('onclick', `openLightbox(${index})`);
-        gallery.appendChild(galleryItem);
-      });
-    }
-
-    // Función para abrir el cuadro de diálogo de edición de descripción
-    function openEditDialog() {
-      const editDialog = document.getElementById('edit-dialog');
-      editDialog.style.display = 'flex';
-    }
-
-    // Función para cerrar el cuadro de diálogo de edición de descripción
-    function closeEditDialog() {
-      const editDialog = document.getElementById('edit-dialog');
-      editDialog.style.display = 'none';
-    }
-
-    // Función para guardar la descripción editada
-    function saveDescription() {
-      const editInput = document.getElementById('edit-dialog-input');
-      const description = editInput.value;
-      const currentIndex = parseInt(document.getElementById('lightbox').dataset.currentIndex);
-
-      images[currentIndex].description = description;
-      updateDescriptionFile();
-
-      const lightboxCaption = document.getElementById('lightbox-caption');
-      lightboxCaption.innerText = description;
-
-      closeEditDialog();
-    }
-
-    // Función para actualizar el archivo de descripciones
-    function updateDescriptionFile() {
-      const descriptionText = images.map(image => image.description).join('\n');
-
-      const requestOptions = {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'Token <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>'
-        },
-        body: descriptionText
-      };
-
-      fetch(descriptionFile, requestOptions)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('No se pudo actualizar el archivo de descripciones.');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-
-    // Función para abrir la visualización emergente (lightbox)
-    function openLightbox(index) {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const lightboxCaption = document.getElementById('lightbox-caption');
-
-      lightboxImage.src = images[index].src;
-      lightboxCaption.innerText = images[index].description;
-      lightbox.dataset.currentIndex = index;
-      lightbox.style.display = 'block';
-    }
-
-    // Función para cerrar la visualización emergente (lightbox)
-    function closeLightbox(event) {
-      if (event.target.id === 'lightbox' || event.target.className === 'close-button') {
-        const lightbox = document.getElementById('lightbox');
-        lightbox.style.display = 'none';
-      }
-    }
-
-    // Función para cargar las descripciones desde el archivo
-    function loadDescriptions() {
-      fetch(descriptionFile)
+    // Obtener las descripciones del archivo descripciones.txt
+    function getDescriptions() {
+      fetch('descripciones.txt')
         .then(response => response.text())
         .then(data => {
           const descriptions = data.split('\n');
-          descriptions.forEach((description, index) => {
-            images[index].description = description;
+          const galleryItems = document.getElementsByClassName('gallery-item');
+          Array.from(galleryItems).forEach((item, index) => {
+            item.setAttribute('data-description', descriptions[index]);
           });
         })
         .catch(error => {
-          console.error(error);
+          console.log('Error al obtener las descripciones:', error);
         });
     }
 
-    // Cargar las imágenes y las descripciones al cargar la página
-    window.onload = function () {
-      loadImages();
-      loadDescriptions();
-    };
+    // Guardar las descripciones en el archivo descripciones.txt
+    function saveDescriptions() {
+      const galleryItems = document.getElementsByClassName('gallery-item');
+      const descriptions = Array.from(galleryItems).map(item => item.getAttribute('data-description') || '');
+      const descriptionsText = descriptions.join('\n');
+
+      const formData = new FormData();
+      formData.append('description', descriptionsText);
+
+      fetch('descripciones.txt', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log('Las descripciones se guardaron correctamente.');
+          } else {
+            console.log('Error al guardar las descripciones.');
+          }
+        })
+        .catch(error => {
+          console.log('Error al guardar las descripciones:', error);
+        });
+    }
+
+    fetch("https://api.github.com/repos/lucianoraw/pagina/contents/portafolio", {
+      headers: {
+        'Authorization': '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'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('image-gallery');
+        data.forEach(item => {
+          if (item.type === 'file' && item.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            const imageUrl = item.download_url;
+            const imageAlt = item.name.replace(/\.(jpg|jpeg|png|gif)$/i, '');
+            const imageCaption = ''; // Puedes agregar una leyenda o descripción aquí si lo deseas
+
+            const galleryItem = document.createElement('div');
+            galleryItem.classList.add('gallery-item');
+            galleryItem.style.backgroundImage = `url('${imageUrl}')`;
+            galleryItem.setAttribute('onclick', `openLightbox('${imageCaption}', '${imageUrl}')`);
+
+            gallery.appendChild(galleryItem);
+          }
+        });
+
+        // Obtener las descripciones una vez que se hayan cargado las imágenes
+        getDescriptions();
+      });
+
+    function openLightbox(caption, imageUrl) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+      var editModal = document.getElementById('edit-modal');
+      var editDescription = document.getElementById('edit-description');
+
+      lightboxImage.src = imageUrl;
+      lightboxCaption.innerHTML = caption;
+
+      lightbox.style.display = 'block';
+      editModal.style.display = 'none'; // Asegurarse de que el modal de edición esté oculto al abrir la visualización emergente
+      editDescription.value = ''; // Limpiar el campo de edición de descripción
+    }
+
+    function closeLightbox(event) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+
+      if (event.target === lightbox || event.target === lightboxImage || event.target === lightboxCaption) {
+        return; // Evitar el cierre si se hace clic dentro del contenido de la visualización emergente
+      }
+
+      lightbox.style.display = 'none';
+    }
+
+    function openEditModal(event) {
+      var editModal = document.getElementById('edit-modal');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+      var editDescription = document.getElementById('edit-description');
+
+      editDescription.value = lightboxCaption.innerHTML; // Mostrar la descripción actual en el campo de edición
+
+      editModal.style.display = 'block';
+    }
+
+    function saveDescription(event) {
+      var editModal = document.getElementById('edit-modal');
+      var editDescription = document.getElementById('edit-description');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+
+      lightboxCaption.innerHTML = editDescription.value; // Actualizar la descripción en la visualización emergente
+
+      editModal.style.display = 'none';
+      saveDescriptions();
+    }
+
+    // Cargar las descripciones una vez que se haya cargado el DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      getDescriptions();
+    });
   </script>
 </body>
 
 </html>
-
