@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background: linear-gradient(#000000, #303030);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .portada {
+      background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portada2.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .portada h1 {
+      font-size: 24px;
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-transform: uppercase;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .gallery-item {
+      width: 250px;
+      height: 250px;
+      margin: 10px;
+      background-position: center;
+      background-size: cover;
+      cursor: pointer;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      overflow: auto;
+    }
+
+    .lightbox-content {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 80vh;
+      margin-bottom: 10px;
+    }
+
+    .lightbox-caption {
+      font-size: 14px;
+    }
+
+    /* Estilos para dispositivos móviles */
+    @media (max-width: 768px) {
+      .portada {
+        height: 200px;
+      }
+
+      .portada h1 {
+        font-size: 20px;
+        top: 30px;
+      }
+
+      .gallery {
+        margin-top: 30px;
+      }
+
+      .gallery-item {
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+      }
+
+      .lightbox-caption {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Imagen de portada -->
+  <div class="portada">
+    <h1>Texto de presentación</h1>
+  </div>
+
+  <!-- Texto -->
+  <div class="container">
+    <div class="text-container">
+      <p style="text-align: center; margin-top: 40px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif; font-size: 30px;">¿Qué deseas ver?</p>
+    </div>
+
+    <!-- Galería de imágenes -->
+    <div class="gallery">
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Descripción de la imagen 1', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Descripción de la imagen 2', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Descripción de la imagen 3', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
+      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Descripción de la imagen 4', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
+      <!-- Agrega aquí más imágenes según sea necesario -->
+    </div>
+
+    <!-- Visualización emergente (lightbox) -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+      <div class="lightbox-content">
+        <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+        <button class="btn btn-danger" onclick="closeLightbox(event)">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    function openLightbox(caption, imageUrl) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+
+      lightboxImage.src = imageUrl;
+      lightboxCaption.textContent = caption;
+
+      lightbox.style.display = 'block';
+    }
+
+    function closeLightbox(event) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+
+      if (event.target === lightbox || event.target === lightboxImage || event.target === lightboxCaption) {
+        return; // Ignorar el evento si se hizo clic en la imagen o en la descripción
+      }
+
+      lightbox.style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
