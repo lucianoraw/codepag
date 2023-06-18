@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <style>
     body {
@@ -24,16 +25,16 @@
       background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portada2.jpg');
       background-size: cover;
       background-position: center;
-      height: 300px; /* Ajusta la altura de la portada para móvil */
+      height: 300px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .portada h1 {
-      font-size: 24px; /* Ajusta el tamaño del título para móvil */
+      font-size: 24px;
       position: absolute;
-      top: 50px; /* Ajusta la posición vertical del título para móvil */
+      top: 50px;
       left: 50%;
       transform: translateX(-50%);
       text-transform: uppercase;
@@ -45,59 +46,74 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 50px; /* Ajusta el espacio entre la foto de portada y las imágenes para móvil */
+      margin-top: 50px;
     }
 
     .gallery-item {
       width: 250px;
       height: 250px;
-      margin: 10px; /* Ajusta el espacio entre las imágenes para móvil */
+      margin: 10px;
       background-position: center;
       background-size: cover;
       cursor: pointer;
     }
 
-    .lightbox-content {
-      max-width: 800px;
-      max-height: 600px;
-      text-align: center;
-      padding: 20px;
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      overflow: auto;
     }
 
-    .lightbox-caption {
-      margin-top: 10px; /* Ajusta el espacio entre la imagen y la descripción para móvil */
-      font-size: 14px; /* Ajusta el tamaño de la descripción para móvil */
+    .lightbox-content {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .lightbox-image {
-      max-width: 100%; /* Ajusta el ancho máximo de la imagen */
-      max-height: 80vh; /* Ajusta la altura máxima de la imagen */
+      max-width: 100%;
+      max-height: 80vh;
+      margin-bottom: 10px;
     }
 
-    /* Estilos específicos para dispositivos móviles */
+    .lightbox-caption {
+      font-size: 14px;
+    }
+
+    /* Estilos para dispositivos móviles */
     @media (max-width: 768px) {
       .portada {
-        height: 200px; /* Ajusta la altura de la portada para dispositivos con un ancho máximo de 768px */
+        height: 200px;
       }
 
       .portada h1 {
-        font-size: 20px; /* Ajusta el tamaño del título para dispositivos con un ancho máximo de 768px */
-        top: 30px; /* Ajusta la posición vertical del título para dispositivos con un ancho máximo de 768px */
+        font-size: 20px;
+        top: 30px;
       }
 
       .gallery {
-        margin-top: 30px; /* Ajusta el espacio entre la foto de portada y las imágenes para dispositivos con un ancho máximo de 768px */
+        margin-top: 30px;
       }
 
       .gallery-item {
-        width: 150px; /* Ajusta el tamaño de las imágenes para dispositivos con un ancho máximo de 768px */
-        height: 150px; /* Ajusta el tamaño de las imágenes para dispositivos con un ancho máximo de 768px */
-        margin: 5px; /* Ajusta el espacio entre las imágenes para dispositivos con un ancho máximo de 768px */
+        width: 150px;
+        height: 150px;
+        margin: 5px;
       }
 
       .lightbox-caption {
-        margin-top: 5px; /* Ajusta el espacio entre la imagen y la descripción para dispositivos con un ancho máximo de 768px */
-        font-size: 12px; /* Ajusta el tamaño de la descripción para dispositivos con un ancho máximo de 768px */
+        margin-top: 5px;
+        font-size: 12px;
       }
     }
   </style>
@@ -106,6 +122,7 @@
 <body>
   <!-- Imagen de portada -->
   <div class="portada">
+    <h1>Texto de presentación</h1>
   </div>
 
   <!-- Texto -->
@@ -124,15 +141,17 @@
     </div>
 
     <!-- Visualización emergente (lightbox) -->
-    <div id="lightbox" class="lightbox">
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
       <div class="lightbox-content">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <img id="lightbox-image" class="lightbox-image" src="" alt="Imágen">
+        <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
+        <button class="btn btn-danger" onclick="closeLightbox(event)">Cerrar</button>
       </div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script>
     function openLightbox(caption, imageUrl) {
       var lightbox = document.getElementById('lightbox');
@@ -145,11 +164,19 @@
       lightbox.style.display = 'block';
     }
 
-    function closeLightbox() {
+    function closeLightbox(event) {
       var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
+
+      if (event.target === lightbox || event.target === lightboxImage || event.target === lightboxCaption) {
+        return; // Ignorar el evento si se hizo clic en la imagen o en la descripción
+      }
+
       lightbox.style.display = 'none';
     }
   </script>
 </body>
 
 </html>
+
