@@ -58,7 +58,6 @@
       background-position: center;
       background-size: cover;
       cursor: pointer;
-      position: relative;
     }
 
     .lightbox {
@@ -91,17 +90,6 @@
 
     .lightbox-caption {
       font-size: 14px;
-    }
-
-    .edit-button {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff0000;
-      color: #ffffff;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
     }
 
     /* Estilos para dispositivos móviles */
@@ -141,7 +129,6 @@
 <body>
   <!-- Imagen de portada -->
   <div class="portada">
-    <h1>Portafolio</h1>
   </div>
 
   <!-- Texto -->
@@ -155,91 +142,123 @@
     </div>
 
     <!-- Galería de imágenes -->
-    <div class="gallery">
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" data-description="Fabricante: Mitsubishi Motors<br>Modelo: Mitsubishi Eclipse<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" data-description="Fabricante: Nissan<br>Modelo: Silvia S14 Zenki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" data-description="Fabricante: Nissan<br>Modelo: Silvia S14 Kouki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" data-description="Fabricante: Honda<br>Modelo: S2000 Convertible<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022"></div>
-      <!-- Agrega aquí más imágenes según sea necesario -->
+    <div class="gallery" id="image-gallery">
     </div>
 
     <!-- Visualización emergente (lightbox) -->
-    <div id="lightbox" class="lightbox">
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
       <div class="lightbox-content">
         <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
-        <button type="button" class="btn btn-primary btn-lg close-button">Cerrar</button>
-        <button type="button" class="btn btn-primary btn-lg edit-button">Editar</button>
+        <button type="button" class="btn btn-primary btn-lg close-button" onclick="closeLightbox(event)">Cerrar</button>
+        <button type="button" class="btn btn-secondary btn-lg edit-button" onclick="openEditModal(event)">Editar</button>
       </div>
     </div>
 
     <!-- Modal de edición -->
-    <div id="edit-modal" class="modal">
-      <div class="modal-content">
-        <h2>Editar Descripción</h2>
-        <div class="form-group">
-          <label for="edit-description">Descripción:</label>
-          <input type="text" id="edit-description" class="form-control">
+    <div id="edit-modal" class="modal" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Descripción</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="edit-description">Descripción:</label>
+              <textarea id="edit-description" class="form-control"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="save-button">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="edit-details">Detalles:</label>
-          <textarea id="edit-details" class="form-control"></textarea>
-        </div>
-        <button type="button" id="save-button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
 
-  <!-- Agrega el enlace al archivo JavaScript de jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Agrega el enlace al archivo JavaScript de Bootstrap -->
+  <!-- Agrega el enlace al archivo JS de Bootstrap y al archivo JS personalizado -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <script>
-    // Al hacer clic en una imagen de la galería
-    $('.gallery-item').click(function () {
-      var description = $(this).data('description');
-      var imageSrc = $(this).css('background-image').replace('url(', '').replace(')', '').replace(/\"/gi, "");
+    fetch("https://api.github.com/repos/lucianoraw/pagina/contents/portafolio", {
+      headers: {
+        'Authorization': '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'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('image-gallery');
+        data.forEach(item => {
+          if (item.type === 'file' && item.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            const imageUrl = item.download_url;
+            const imageAlt = item.name.replace(/\.(jpg|jpeg|png|gif)$/i, '');
+            const imageCaption = ''; // Puedes agregar una leyenda o descripción aquí si lo deseas
 
-      // Actualizar la imagen y la descripción en el lightbox
-      $('#lightbox-image').attr('src', imageSrc);
-      $('#lightbox-caption').html(description);
+            const galleryItem = document.createElement('div');
+            galleryItem.classList.add('gallery-item');
+            galleryItem.style.backgroundImage = `url('${imageUrl}')`;
+            galleryItem.setAttribute('onclick', `openLightbox('${imageCaption}', '${imageUrl}')`);
 
-      // Mostrar el lightbox
-      $('#lightbox').show();
-    });
+            gallery.appendChild(galleryItem);
+          }
+        });
+      });
 
-    // Al hacer clic en el botón "Cerrar" del lightbox
-    $('.close-button').click(function () {
-      // Ocultar el lightbox
-      $('#lightbox').hide();
-    });
+    function openLightbox(caption, imageUrl) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
 
-    // Al hacer clic en el botón "Editar" del lightbox
-    $('.edit-button').click(function () {
-      var description = $('#lightbox-caption').html();
-      var details = $(this).siblings('.lightbox-details').html();
+      lightboxImage.src = imageUrl;
+      lightboxCaption.innerHTML = caption;
 
-      // Rellenar los campos del modal de edición con los valores actuales
-      $('#edit-description').val(description);
-      $('#edit-details').val(details);
+      lightbox.style.display = 'block';
+    }
 
-      // Mostrar el modal de edición
-      $('#edit-modal').show();
-    });
+    function closeLightbox(event) {
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImage = document.getElementById('lightbox-image');
+      var lightboxCaption = document.getElementById('lightbox-caption');
 
-    // Al hacer clic en el botón "Guardar" del modal de edición
-    $('#save-button').click(function () {
-      var editedDescription = $('#edit-description').val();
-      var editedDetails = $('#edit-details').val();
+      if (event.target === lightbox || event.target === lightboxImage || event.target === lightboxCaption) {
+        return; // Ignorar el evento si se hizo clic en la imagen o en la descripción
+      }
 
-      // Actualizar la descripción y los detalles en el lightbox
-      $('#lightbox-caption').html(editedDescription);
-      $(this).siblings('.lightbox-details').html(editedDetails);
+      lightbox.style.display = 'none';
+    }
 
-      // Ocultar el modal de edición
-      $('#edit-modal').hide();
-    });
+    function openEditModal(event) {
+      var modal = document.getElementById('edit-modal');
+      var descriptionTextarea = document.getElementById('edit-description');
+      var saveButton = document.getElementById('save-button');
+
+      // Obtener la descripción actual
+      var lightboxCaption = document.getElementById('lightbox-caption');
+      var currentDescription = lightboxCaption.innerHTML;
+
+      // Establecer la descripción actual en el textarea
+      descriptionTextarea.value = currentDescription;
+
+      // Agregar el evento al botón de guardar
+      saveButton.addEventListener('click', function () {
+        var newDescription = descriptionTextarea.value;
+        lightboxCaption.innerHTML = newDescription;
+        closeModal();
+      });
+
+      modal.style.display = 'block';
+    }
+
+    function closeModal() {
+      var modal = document.getElementById('edit-modal');
+      modal.style.display = 'none';
+    }
   </script>
 </body>
 
