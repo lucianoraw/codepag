@@ -118,28 +118,31 @@
         font-size: 12px;
       }
     }
+    
+    .close-button {
+      background-color: #ff0000; /* Cambia el color de fondo al rojo (#ff0000) */
+      margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
+    }
   </style>
 </head>
 
 <body>
   <!-- Imagen de portada -->
   <div class="portada">
-    <h1>Texto de presentación</h1>
   </div>
 
   <!-- Texto -->
   <div class="container">
     <div class="text-container">
-      <p style="text-align: center; margin-top: 40px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif; font-size: 30px;">¿Qué deseas ver?</p>
+      <p style="text-align: center; margin-top: 40px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif; font-size: 30px;">
+        ¿Qué deseas ver?
+        <br>
+        <span style="font-size: 18px; color: #999;">Haz clic en una imagen para ampliarla</span>
+      </p>
     </div>
 
     <!-- Galería de imágenes -->
-    <div class="gallery">
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');" onclick="openLightbox('Fabricante: Mitsubishi Motors<br>Modelo: Mitsubishi Eclipse<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/meclipse.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');" onclick="openLightbox('Fabricante: Nissan<br>Modelo: Silvia S14 Zenki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsilviam.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');" onclick="openLightbox('Fabricante: Nissan<br>Modelo: Silvia S14 Kouki<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/nsislviac.JPG');"></div>
-      <div class="gallery-item" style="background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');" onclick="openLightbox('Fabricante: Honda<br>Modelo: S2000 Convertible<br>Ubicación: Autódromo Codegua, Chile<br>Meet: NM Fest 2022', 'https://raw.githubusercontent.com/lucianoraw/pagina/main/portafolio/hs2k.JPG');"></div>
-      <!-- Agrega aquí más imágenes según sea necesario -->
+    <div class="gallery" id="image-container">
     </div>
 
     <!-- Visualización emergente (lightbox) -->
@@ -147,7 +150,7 @@
       <div class="lightbox-content">
         <img id="lightbox-image" class="lightbox-image" src="" alt="Imagen">
         <div id="lightbox-caption" class="lightbox-caption"></div>
-        <button type="button" class="btn btn-primary btn-lg" onclick="closeLightbox(event)">Cerrar</button>
+        <button type="button" class="btn btn-primary btn-lg close-button" onclick="closeLightbox(event)">Cerrar</button>
       </div>
     </div>
   </div>
@@ -158,6 +161,20 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <script>
+    var imageContainer = document.getElementById('image-container');
+    var repoBaseUrl = 'https://github.com/lucianoraw/pagina/tree/783d6db28a4424acd9e5e40f4221a94d73069393/portafolio'; // Reemplaza con la URL base de tu repositorio
+    var imageCount = 10; // Número total de imágenes
+
+    for (var i = 1; i <= imageCount; i++) {
+      var imageUrl = repoBaseUrl + i + '.jpg'; // Construye la URL de la imagen
+      var imageElement = document.createElement('div');
+      imageElement.classList.add('gallery-item');
+      imageElement.style.backgroundImage = 'url(' + imageUrl + ')';
+      imageElement.setAttribute('onclick', "openLightbox('Descripción de la imagen', '" + imageUrl + "')");
+
+      imageContainer.appendChild(imageElement); // Agrega la imagen al contenedor
+    }
+
     function openLightbox(caption, imageUrl) {
       var lightbox = document.getElementById('lightbox');
       var lightboxImage = document.getElementById('lightbox-image');
