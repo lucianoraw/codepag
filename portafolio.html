@@ -58,6 +58,20 @@
       background-position: center;
       background-size: cover;
       cursor: pointer;
+      position: relative;
+    }
+
+    .gallery-item:after {
+      content: "";
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-image: url('https://raw.githubusercontent.com/lucianoraw/pagina/main/logor.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.8;
+      width: 100px; /* Ajusta el ancho de la marca de agua */
+      height: auto; /* Ajusta el alto de la marca de agua */
     }
 
     .lightbox {
