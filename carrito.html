@@ -34,16 +34,26 @@
     }
 
     #lista-carrito li {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     #lista-carrito li img {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    #lista-carrito li .producto-info {
+      display: flex;
+      align-items: center;
+    }
+
+    #lista-carrito li .producto-nombre {
+      margin-left: 10px;
     }
 
     #total-carrito {
@@ -95,7 +105,11 @@
 
           const elementoCarrito = document.createElement('li');
           elementoCarrito.innerHTML = `
-            <img src="${imageUrl}" alt="${name}"> ${name} - $${price}
+            <div class="producto-info">
+              <img src="${imageUrl}" alt="${name}">
+              <div class="producto-nombre">${name}</div>
+            </div>
+            <div class="producto-precio">$${price}</div>
             <button class="btn btn-sm btn-danger btn-eliminar" data-precio="${price}">X</button>
           `;
           listaCarrito.appendChild(elementoCarrito);
@@ -125,6 +139,28 @@
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         mostrarCarrito();
       }
+
+      function generarMensajeCompra() {
+        let mensaje = '¡Hola! Me gustaría comprar los siguientes productos:%0A%0A';
+
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        cartItems.forEach(function(product, index) {
+          const { imageUrl, name, price } = product;
+          mensaje += `${index + 1}. ${name} - $${price}%0AImagen: ${imageUrl}%0A%0A`;
+        });
+
+        mensaje += `Total: $${totalCarrito.textContent}`;
+
+        return mensaje;
+      }
+
+      const btnComprar = document.getElementById('btn-comprar');
+      btnComprar.addEventListener('click', function() {
+        const mensajeCompra = generarMensajeCompra();
+        const urlWhatsApp = 'https://wa.me/56930531304/?text=' + encodeURIComponent(mensajeCompra);
+        window.location.href = urlWhatsApp;
+      });
 
       mostrarCarrito();
     });
