@@ -131,16 +131,15 @@
       }
 
       function generarMensajeCompra() {
-        let mensaje = '¡Hola! Me gustaría comprar los siguientes productos:%0A%0A';
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        let cantidad = cartItems.length;
 
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-        cartItems.forEach(function(product, index) {
-          const { name, price } = product;
-          mensaje += `${index + 1}. ${name} - $${price}%0A`;
+        let total = 0;
+        cartItems.forEach(function(product) {
+          total += product.price;
         });
 
-        mensaje += `%0ATotal: $${totalCarrito.textContent}`;
+        let mensaje = `¡Hola! Me interesa comprar ${cantidad} productos de tu tienda, el total es $${total}.`;
 
         return mensaje;
       }
@@ -148,7 +147,7 @@
       const btnComprar = document.getElementById('btn-comprar');
       btnComprar.addEventListener('click', function() {
         const mensajeCompra = generarMensajeCompra();
-        const urlWhatsApp = 'https://wa.me/56930531304/?text=' + encodeURIComponent(mensajeCompra);
+        const urlWhatsApp = 'https://wa.me/tu-numero-de-whatsapp/?text=' + encodeURIComponent(mensajeCompra);
         window.location.href = urlWhatsApp;
       });
 
