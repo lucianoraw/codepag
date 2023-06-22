@@ -132,12 +132,12 @@
         font-size: 12px;
       }
     }
-    
+
     .close-button {
       background-color: #ff0000; /* Cambia el color de fondo al rojo (#ff0000) */
       margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
     }
-    
+
     .add-to-cart-button {
       background-color: #428bca; /* Cambia el color de fondo al azul (#428bca) */
       margin-top: 10px; /* Desplaza el botón 10px hacia abajo */
@@ -182,6 +182,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <script>
+    // Verifica si ya existe un carrito en el almacenamiento local y, si no existe, crea uno vacío
+    if (!localStorage.getItem('cart')) {
+      localStorage.setItem('cart', JSON.stringify([]));
+    }
+
     fetch("https://api.github.com/repos/lucianoraw/pagina/contents/portafolio", {
       headers: {
         'Authorization': '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'
@@ -221,9 +226,37 @@
     }
 
     function addToCart() {
-      // Agrega el código para agregar la imagen al carrito de compras
+      const imageUrl = document.getElementById('lightbox-image').src;
+      const imageAlt = document.getElementById('lightbox-image').alt;
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      const item = { imageUrl, imageAlt };
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
       alert('Imagen agregada al carrito de compras');
     }
+
+
+    function addToCart() {
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+
+      const imageUrl = lightboxImage.src;
+      const productName = lightboxCaption.textContent;
+      const productPrice = 1000 
+
+      const product = {
+        imageUrl: imageUrl,
+        name: productName,
+        price: productPrice
+      };
+
+      let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      cartItems.push(product);
+
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      alert('Imagen agregada al carrito de compras');
+    }
+
   </script>
 </body>
 
