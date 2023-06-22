@@ -20,6 +20,7 @@
       padding: 20px;
       margin-top: 20px;
       border-radius: 5px;
+      text-align: center;
     }
 
     #carrito h2 {
@@ -34,6 +35,15 @@
 
     #lista-carrito li {
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #lista-carrito li img {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
     }
 
     #total-carrito {
@@ -58,19 +68,8 @@
 <body>
   <!-- Contenido de la página -->
 
-  <!-- Botones -->
-  <div class="text-center">
-    <div class="btn-group" role="group">
-      <!-- Botón para agregar al carrito -->
-      <button class="btn btn-square btn-custom" id="btn-agregar-carrito" data-nombre="Imagen 1" data-precio="10">
-        Agregar al carrito
-      </button>
-      <!-- Otros botones de tu portafolio -->
-    </div>
-  </div>
-
   <!-- Carrito de compras -->
-  <div id="carrito" class="text-right">
+  <div id="carrito">
     <h2>Carrito de compras</h2>
     <ul id="lista-carrito"></ul>
     <p id="total-carrito">Total: $0</p>
@@ -81,62 +80,53 @@
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const btnAgregarCarrito = document.getElementById('btn-agregar-carrito');
       const listaCarrito = document.getElementById('lista-carrito');
       const totalCarrito = document.getElementById('total-carrito');
-      const btnComprar = document.getElementById('btn-comprar');
-      const carrito = [];
-
-      btnAgregarCarrito.addEventListener('click', function() {
-        const nombre = btnAgregarCarrito.getAttribute('data-nombre');
-        const precio = parseInt(btnAgregarCarrito.getAttribute('data-precio'));
-
-        const producto = {
-          nombre: nombre,
-          precio: precio
-        };
-
-        carrito.push(producto);
-
-        mostrarCarrito();
-      });
 
       function mostrarCarrito() {
         listaCarrito.innerHTML = '';
 
         let total = 0;
 
-        carrito.forEach(function(producto) {
-          const { nombre, precio } = producto;
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        cartItems.forEach(function(product) {
+          const { imageUrl, name, price } = product;
 
           const elementoCarrito = document.createElement('li');
-          elementoCarrito.textContent = `${nombre} - $${precio}`;
+          elementoCarrito.innerHTML = `
+            <img src="${imageUrl}" alt="${name}"> ${name} - $${price}
+            <button class="btn btn-sm btn-danger btn-eliminar" data-precio="${price}">X</button>
+          `;
           listaCarrito.appendChild(elementoCarrito);
 
-          total += precio;
+          total += price;
         });
 
         totalCarrito.textContent = `Total: $${total}`;
+
+        // Agregar eventos a los botones de eliminar
+        const btnEliminarList = document.querySelectorAll('.btn-eliminar');
+        btnEliminarList.forEach(function(btnEliminar) {
+          btnEliminar.addEventListener('click', function() {
+            const precio = parseInt(btnEliminar.getAttribute('data-precio'));
+            eliminarProducto(precio);
+          });
+        });
       }
 
-      btnComprar.addEventListener('click', function() {
-        const mensajeCompra = generarMensajeCompra();
-        const urlWhatsApp = 'https://wa.me/tu-numero-de-whatsapp/?text=' + encodeURIComponent(mensajeCompra);
-        window.location.href = urlWhatsApp;
-      });
+      function eliminarProducto(precio) {
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-      function generarMensajeCompra() {
-        let mensaje = '¡Hola! Me gustaría comprar los siguientes productos:%0A';
-
-        carrito.forEach(function(producto) {
-          const { nombre, precio } = producto;
-          mensaje += `${nombre} - $${precio}%0A`;
+        cartItems = cartItems.filter(function(product) {
+          return product.price !== precio;
         });
 
-        mensaje += `%0ATotal: $${totalCarrito.textContent}`;
-
-        return mensaje;
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        mostrarCarrito();
       }
+
+      mostrarCarrito();
     });
   </script>
 </body>
