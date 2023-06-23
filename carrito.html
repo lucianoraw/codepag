@@ -141,6 +141,11 @@
 
         let mensaje = `¡Hola! Me interesa comprar ${cantidad} productos de tu tienda, el total es $${total}.`;
 
+        // Generar enlaces a las imágenes de los productos en el carrito
+        cartItems.forEach(function(product) {
+          mensaje += `\n${product.name}: ${product.imageUrl}`;
+        });
+
         return mensaje;
       }
 
