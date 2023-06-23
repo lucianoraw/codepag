@@ -21,6 +21,9 @@
       max-width: 1800px;
       margin: 0 auto;
       padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .logo {
@@ -45,7 +48,7 @@
       height: 150px;
       border-radius: 30%;
       margin: 30px;
-      font-size: 24px;
+      font-size: 16px; /* Tamaño de texto pequeño */
       position: relative;
       overflow: hidden;
       transition: transform 0.5s ease;
@@ -54,7 +57,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      font-family: "Tahoma", cursive;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, cursive;
       color: #ffffff;
       background: transparent;
       border: none;
@@ -99,37 +102,28 @@
       margin: 30px;
     }
 
-    /* Estilo para la barra lateral */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 200px;
-      background-color: #333333;
-      padding-top: 20px;
-      color: #ffffff;
+    /* Estilo para el apartado "Contactame" */
+    .contactame {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
     }
 
-    /* Estilo para el título de la barra lateral */
-    .sidebar h2 {
+    .contactame h2 {
       font-size: 20px;
       color: #ffffff;
-      padding: 10px;
-      margin-bottom: 20px;
+      margin-right: 20px;
     }
 
-    /* Estilo para los enlaces de la barra lateral */
-    .sidebar a {
-      display: block;
+    .contactame a {
+      display: inline-block;
       padding: 10px;
       color: #ffffff;
       text-decoration: none;
       transition: background-color 0.3s ease;
     }
 
-    /* Estilo para los enlaces de la barra lateral al pasar el cursor */
-    .sidebar a:hover {
+    .contactame a:hover {
       background-color: #555555;
     }
   </style>
@@ -138,30 +132,12 @@
   <!-- Imagen de portada -->
   <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/portada1.jpg" alt="Portada" class="portada" id="portada-image">
 
-  <!-- Barra lateral -->
-  <div class="sidebar">
-    <h2>Contactame</h2>
-    <a href="https://www.instagram.com/luciano.raw._/" target="_blank">Instagram</a>
-    <a href="https://wa.me/56930531304/?text=Hola Lucianoraw, vengo desde tu pagina web :)" target="_blank">WhatsApp</a>
-    <a href="mailto:tu_correo@example.com" target="_blank">Correo electrónico</a>
-  </div>
-
   <!-- Contenido de la página -->
   <section class="container">
     <h1 class="display-4">Web oficial de lucianoraw</h1>
     <p class="lead">Tenemos disponible la galería de imágenes para que puedas obtenerlas en máxima calidad.</p>
     <p class="font-weight-bold">¡También puedes conocer más acerca de mí o agendar tu sesión fotográfica directamente haciendo clic en los botones a continuación!</p>
     <!-- Agrega aquí el contenido adicional que desees -->
-
-    <!-- Tamaño del texto de los botones -->
-    <div class="text-center">
-      <label for="btn-text-size">Tamaño del texto:</label>
-      <select id="btn-text-size">
-        <option value="16px">Pequeño</option>
-        <option value="24px" selected>Mediano</option>
-        <option value="32px">Grande</option>
-      </select>
-    </div>
 
     <!-- Botones -->
     <div class="text-center">
@@ -173,25 +149,21 @@
           <span>Acerca de mí</span>
         </a>
         <a href="sesion.html" class="btn btn-square btn-custom-font" id="btn-sesiones">
-          <span>Agendar sesiones</span>
+          <span>Agendar sesión</span>
         </a>
       </div>
+    </div>
+
+    <!-- Apartado "Contactame" -->
+    <div class="contactame">
+      <a href="https://www.instagram.com/luciano.raw._/" target="_blank">Instagram</a>
+      <a href="https://wa.me/56930531304/?text=Hola Lucianoraw, vengo desde tu pagina web :)" target="_blank">WhatsApp</a>
+      <a href="mailto:tu_correo@example.com" target="_blank">Correo electrónico</a>
     </div>
 
   </section>
 
   <!-- Enlace al archivo JavaScript de Bootstrap (antes del cierre del body) -->
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script>
-    // Cambiar el tamaño del texto de los botones al seleccionar una opción
-    const btnTextSizeSelect = document.getElementById('btn-text-size');
-    const btns = document.querySelectorAll('.btn-square');
-    btnTextSizeSelect.addEventListener('change', (event) => {
-      const textSize = event.target.value;
-      btns.forEach(btn => {
-        btn.style.fontSize = textSize;
-      });
-    });
-  </script>
 </body>
 </html>
