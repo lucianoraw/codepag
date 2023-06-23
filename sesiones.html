@@ -99,13 +99,49 @@
         eventoGroup.style.display = 'block';
       }
     }
+
+    function enviarMensajeWhatsApp() {
+      var nombre = document.getElementById('nombre').value;
+      var categoria = document.getElementById('categoria').value;
+      var marca = document.getElementById('marca').value;
+      var modelo = document.getElementById('modelo').value;
+      var anio = document.getElementById('anio').value;
+      var ubicacionAutomovil = document.getElementById('ubicacion-automovil').value;
+      var ubicacionPersona = document.getElementById('ubicacion-persona').value;
+      var cantidadFotos = document.getElementById('cantidad-fotos').value;
+      var descripcionEvento = document.getElementById('descripcion-evento').value;
+      var fecha = document.getElementById('fecha').value;
+
+      var mensaje = "¡Hola! Estoy interesado en agendar una sesión fotográfica. Aquí están mis datos:\n\n" +
+                    "Nombre: " + nombre + "\n" +
+                    "Categoría: " + categoria + "\n";
+
+      if (categoria === 'automovil') {
+        mensaje += "Marca: " + marca + "\n" +
+                   "Modelo: " + modelo + "\n" +
+                   "Año: " + anio + "\n" +
+                   "Ubicación Sugerida: " + ubicacionAutomovil + "\n";
+      } else if (categoria === 'persona') {
+        mensaje += "Ubicación Sugerida: " + ubicacionPersona + "\n" +
+                   "Cantidad de Fotos: " + cantidadFotos + "\n";
+      } else if (categoria === 'evento') {
+        mensaje += "Descripción del Evento: " + descripcionEvento + "\n";
+      }
+
+      mensaje += "Fecha de Sesión: " + fecha;
+
+      var mensajeCodificado = encodeURIComponent(mensaje);
+      var urlWhatsApp = "https://wa.me/56930531304/?text=" + mensajeCodificado;
+
+      window.location.href = urlWhatsApp;
+    }
   </script>
 </head>
 <body>
   <div class="container">
     <h1>Agendar Sesión</h1>
     
-    <form action="https://wa.me/56930531304/?text=¡Hola! Estoy interesado en agendar una sesión fotográfica. Aquí están mis datos:" method="POST">
+    <form>
       <div class="form-group">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
@@ -154,7 +190,7 @@
       </div>
       
       <div class="form-group">
-        <button type="submit" class="btn">Agendar</button>
+        <button type="button" class="btn" onclick="enviarMensajeWhatsApp()">Agendar</button>
       </div>
     </form>
   </div>
