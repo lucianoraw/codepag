@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agendar Sesión</title>
+  
+  <style>
+    body {
+      background: linear-gradient(#000000, #303030);
+      color: #ffffff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    form {
+      text-align: left;
+      margin-top: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      background-color: #ff5500;
+      color: #ffffff;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn:hover {
+      background-color: #cc4400;
+    }
+  </style>
+  
+  <script>
+    function mostrarCamposAdicionales() {
+      var categoria = document.getElementById('categoria').value;
+      
+      var automovilGroup = document.getElementById('automovil-group');
+      var personaGroup = document.getElementById('persona-group');
+      var eventoGroup = document.getElementById('evento-group');
+      
+      automovilGroup.style.display = 'none';
+      personaGroup.style.display = 'none';
+      eventoGroup.style.display = 'none';
+      
+      if (categoria === 'automovil') {
+        automovilGroup.style.display = 'block';
+      } else if (categoria === 'persona') {
+        personaGroup.style.display = 'block';
+      } else if (categoria === 'evento') {
+        eventoGroup.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Agendar Sesión</h1>
+    
+    <form action="https://wa.me/56930531304/?text=¡Hola! Estoy interesado en agendar una sesión fotográfica. Aquí están mis datos:" method="POST">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria" onchange="mostrarCamposAdicionales()" required>
+          <option value="">Selecciona una categoría</option>
+          <option value="automovil">Automóvil</option>
+          <option value="persona">Persona</option>
+          <option value="evento">Evento</option>
+        </select>
+      </div>
+      
+      <div id="automovil-group" class="form-group" style="display: none;">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca">
+        
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo">
+        
+        <label for="anio">Año:</label>
+        <input type="text" id="anio" name="anio">
+        
+        <label for="ubicacion-automovil">Ubicación Sugerida:</label>
+        <input type="text" id="ubicacion-automovil" name="ubicacion-automovil">
+      </div>
+      
+      <div id="persona-group" class="form-group" style="display: none;">
+        <label for="ubicacion-persona">Ubicación Sugerida:</label>
+        <input type="text" id="ubicacion-persona" name="ubicacion-persona">
+        
+        <label for="cantidad-fotos">Cantidad de Fotos:</label>
+        <input type="text" id="cantidad-fotos" name="cantidad-fotos">
+      </div>
+      
+      <div id="evento-group" class="form-group" style="display: none;">
+        <label for="descripcion-evento">Descripción del Evento:</label>
+        <textarea id="descripcion-evento" name="descripcion-evento" rows="4"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="fecha">Fecha de Sesión:</label>
+        <input type="date" id="fecha" name="fecha" required>
+      </div>
+      
+      <div class="form-group">
+        <button type="submit" class="btn">Agendar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
