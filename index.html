@@ -99,23 +99,38 @@
       margin: 30px;
     }
 
-    /* Estilo para los botones de imágenes */
-    .img-btn {
-      display: inline-block;
-      margin-top: 20px;
+    /* Estilo para la barra lateral */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 200px;
+      background-color: #333333;
+      padding-top: 20px;
+      color: #ffffff;
     }
 
-    /* Estilo para los enlaces de las imágenes */
-    .img-link {
+    /* Estilo para el título de la barra lateral */
+    .sidebar h2 {
+      font-size: 20px;
+      color: #ffffff;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Estilo para los enlaces de la barra lateral */
+    .sidebar a {
       display: block;
-      width: 100%;
-      height: 100%;
+      padding: 10px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
     }
 
-    /* Cambiar el tipo de fuente de los botones */
-    .btn-custom-font {
-      font-family: "Roboto", sans-serif;
-      text-decoration: none;
+    /* Estilo para los enlaces de la barra lateral al pasar el cursor */
+    .sidebar a:hover {
+      background-color: #555555;
     }
   </style>
 </head>
@@ -123,6 +138,13 @@
   <!-- Imagen de portada -->
   <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/portada1.jpg" alt="Portada" class="portada" id="portada-image">
 
+  <!-- Barra lateral -->
+  <div class="sidebar">
+    <h2>Contactame</h2>
+    <a href="https://www.instagram.com/luciano.raw._/" target="_blank">Instagram</a>
+    <a href="https://wa.me/56930531304/?text=Hola Lucianoraw, vengo desde tu pagina web :)" target="_blank">WhatsApp</a>
+    <a href="mailto:tu_correo@example.com" target="_blank">Correo electrónico</a>
+  </div>
 
   <!-- Contenido de la página -->
   <section class="container">
@@ -130,6 +152,16 @@
     <p class="lead">Tenemos disponible la galería de imágenes para que puedas obtenerlas en máxima calidad.</p>
     <p class="font-weight-bold">¡También puedes conocer más acerca de mí o agendar tu sesión fotográfica directamente haciendo clic en los botones a continuación!</p>
     <!-- Agrega aquí el contenido adicional que desees -->
+
+    <!-- Tamaño del texto de los botones -->
+    <div class="text-center">
+      <label for="btn-text-size">Tamaño del texto:</label>
+      <select id="btn-text-size">
+        <option value="16px">Pequeño</option>
+        <option value="24px" selected>Mediano</option>
+        <option value="32px">Grande</option>
+      </select>
+    </div>
 
     <!-- Botones -->
     <div class="text-center">
@@ -141,32 +173,25 @@
           <span>Acerca de mí</span>
         </a>
         <a href="sesion.html" class="btn btn-square btn-custom-font" id="btn-sesiones">
-          <span>Agendar sesión</span>
+          <span>Agendar sesiones</span>
         </a>
       </div>
     </div>
 
-    <!-- Botones de imágenes -->
-    <div class="text-right">
-      <div class="img-btn">
-        <a href="https://www.instagram.com/luciano.raw._/" target="_blank" class="img-link">
-          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/ig.png" alt="Instagram" width="80" height="80">
-        </a>
-      </div>
-      <div class="img-btn">
-        <a href="https://wa.me/56930531304/?text=Hola Lucianoraw, vengo desde tu página web :)" target="_blank" class="img-link">
-          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/wts.png" alt="WhatsApp" width="70" height="70">
-        </a>
-      </div>
-      <div class="img-btn">
-        <a href="mailto:tu_correo@example.com" target="_blank" class="img-link">
-          <img src="https://raw.githubusercontent.com/lucianoraw/pagina/main/email.png" alt="Correo electrónico" width="80" height="80">
-        </a>
-      </div>
-    </div>
   </section>
 
   <!-- Enlace al archivo JavaScript de Bootstrap (antes del cierre del body) -->
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    // Cambiar el tamaño del texto de los botones al seleccionar una opción
+    const btnTextSizeSelect = document.getElementById('btn-text-size');
+    const btns = document.querySelectorAll('.btn-square');
+    btnTextSizeSelect.addEventListener('change', (event) => {
+      const textSize = event.target.value;
+      btns.forEach(btn => {
+        btn.style.fontSize = textSize;
+      });
+    });
+  </script>
 </body>
 </html>
